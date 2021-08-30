@@ -1,4 +1,4 @@
-const String dev = "Development";
+const String dev = "dev";
 const String appDev = "BRInvestYuk! Dev";
 
 const String prod = "Production";

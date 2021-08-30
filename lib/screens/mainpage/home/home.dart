@@ -5,6 +5,8 @@ import 'package:learn_brinvestyuk/screens/mainpage/home/components/article.dart'
 import 'package:learn_brinvestyuk/screens/mainpage/home/components/investment.dart';
 import 'package:learn_brinvestyuk/screens/mainpage/home/components/products.dart';
 import 'package:learn_brinvestyuk/screens/mainpage/home/components/profile.dart';
+import 'package:learn_brinvestyuk/view_model/products/products_list_view_model.dart';
+import 'package:learn_brinvestyuk/view_model/products/products_view_model.dart';
 import 'package:learn_brinvestyuk/view_model/users/user_profile_list_view_model.dart';
 import 'package:provider/provider.dart';
 
@@ -16,7 +18,9 @@ class HomePageScreen extends StatefulWidget {
 }
 
 class _HomePageScreenState extends State<HomePageScreen> {
+  bool isRequest = true;
   UserProfileListViewModel? profile;
+  List<ProductsViewModel> products = <ProductsViewModel>[];
 
   @override
   void initState() {
@@ -24,15 +28,32 @@ class _HomePageScreenState extends State<HomePageScreen> {
     super.initState();
   }
 
-  @override
   void readyCall() async {
+    int defaultLength = 10;
     final userProfile =
         Provider.of<UserProfileListViewModel>(context, listen: false);
     await userProfile.getProfile();
 
+    final productListView =
+        Provider.of<ProductsListViewModel>(context, listen: false);
+    await productListView.fetchProducts(1, null, null);
+
+    if (productListView.products!.length < 10) {
+      defaultLength = productListView.products!.length;
+    }
+
     setState(() {
       profile = userProfile;
+      for (int i = 0; i < defaultLength; i++) {
+        products.add(productListView.products![i]);
+      }
+      isRequest = false;
     });
+  }
+
+  Future<void> _onRefresh(BuildContext context) async {
+    products = [];
+    readyCall();
   }
 
   @override
@@ -40,7 +61,7 @@ class _HomePageScreenState extends State<HomePageScreen> {
     final Size size = MediaQuery.of(context).size;
 
     return RefreshIndicator(
-      onRefresh: () async => print("refresh"),
+      onRefresh: () => _onRefresh(context),
       child: ListView(
         padding: EdgeInsets.only(bottom: defaultPadding * 2),
         children: <Widget>[
@@ -119,7 +140,11 @@ class _HomePageScreenState extends State<HomePageScreen> {
                         ),
                       ),
                       SizedBox(height: defaultHeight),
-                      ProductSection(),
+                      isRequest
+                          ? Text('')
+                          : ProductSection(
+                              products: products,
+                            ),
                       SizedBox(height: defaultHeight * 1.5),
                       Divider(
                         height: defaultHeight * .5,

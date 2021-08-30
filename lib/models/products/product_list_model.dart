@@ -24,7 +24,7 @@ class ProductListModel {
   final double? tenorDay;
 
   @JsonKey(name: "formatted")
-  final ProductListModel? formatted;
+  final ProductListFormatted? formatted;
 
   ProductListModel({
     this.id,

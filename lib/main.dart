@@ -7,6 +7,7 @@ import 'package:learn_brinvestyuk/screens/explore/explore_screen.dart';
 import 'package:learn_brinvestyuk/screens/mainpage/main_page.dart';
 import 'package:learn_brinvestyuk/screens/onboard/onboarding_screen.dart';
 import 'package:learn_brinvestyuk/view_model/auth/login/login_list_view_model.dart';
+import 'package:learn_brinvestyuk/view_model/products/products_list_view_model.dart';
 import 'package:learn_brinvestyuk/view_model/users/user_profile_list_view_model.dart';
 import 'package:provider/provider.dart';
 
@@ -29,6 +30,9 @@ class _MyAppState extends State<MyApp> {
         ),
         ChangeNotifierProvider(
           create: (_) => UserProfileListViewModel(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => ProductsListViewModel(),
         ),
       ],
       child: MaterialApp(

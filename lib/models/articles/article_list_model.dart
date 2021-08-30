@@ -3,47 +3,45 @@ import 'package:json_annotation/json_annotation.dart';
 part 'article_list_model.g.dart';
 
 @JsonSerializable()
+class ArticleModel {
+  final int? totalPerPage;
+  final int? total;
+  final int? prevPage;
+  final int? currentPage;
+  final int? nextPage;
+  final ArticleListModel? articleLists;
+
+  ArticleModel({
+    this.totalPerPage,
+    this.total,
+    this.prevPage,
+    this.currentPage,
+    this.nextPage,
+    this.articleLists,
+  });
+
+  factory ArticleModel.fromJson(Map<String, dynamic> json) =>
+      _$ArticleModelFromJson(json);
+
+  Map<String, dynamic> toJson() => _$ArticleModelToJson(this);
+}
+
+@JsonSerializable()
 class ArticleListModel {
   final int? id;
-  final String? name;
+  final String? title;
+  final String? body;
   final String? image;
-
-  @JsonKey(name: "description")
-  final String? desc;
-  final String? company;
-  final String? category;
-  final DateTime? startDate;
-  final DateTime? endDate;
-  final DateTime? offerDate;
+  final String? status;
   final DateTime? createdAt;
-  final int? minAmount;
-  final int? currentAmount;
-  final int? totalAmount;
-  final double? percent;
-  final double? roi;
-  final double? tenorDay;
-
-  @JsonKey(name: "formatted")
-  final ArticleListFormatted? formatted;
 
   ArticleListModel({
     this.id,
-    this.name,
+    this.title,
+    this.body,
     this.image,
-    this.desc,
-    this.company,
-    this.category,
-    this.startDate,
-    this.endDate,
-    this.offerDate,
+    this.status,
     this.createdAt,
-    this.currentAmount,
-    this.minAmount,
-    this.totalAmount,
-    this.percent,
-    this.roi,
-    this.tenorDay,
-    this.formatted,
   });
 
   factory ArticleListModel.fromJson(Map<String, dynamic> json) =>
@@ -53,29 +51,15 @@ class ArticleListModel {
 }
 
 @JsonSerializable()
-class ArticleListFormatted {
-  final String? minAmount;
-  final String? currentAmount;
-  final String? totalAmount;
-  final String? percent;
-  final String? roi;
-  final String? startDate;
-  final String? endDate;
-  final String? tenorDay;
+class ArticleAdmin {
+  final int? id;
+  final String? name;
+  final String? email;
 
-  ArticleListFormatted({
-    this.minAmount,
-    this.currentAmount,
-    this.endDate,
-    this.percent,
-    this.roi,
-    this.startDate,
-    this.tenorDay,
-    this.totalAmount,
-  });
+  ArticleAdmin({this.id, this.name, this.email});
 
-  factory ArticleListFormatted.fromJson(Map<String, dynamic> json) =>
-      _$ArticleListFormattedFromJson(json);
+  factory ArticleAdmin.fromJson(Map<String, dynamic> json) =>
+      _$ArticleAdminFromJson(json);
 
-  Map<String, dynamic> toJson() => _$ArticleListFormattedToJson(this);
+  Map<String, dynamic> toJson() => _$ArticleAdminToJson(this);
 }

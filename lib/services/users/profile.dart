@@ -20,7 +20,6 @@ class Users {
       if (res is ErrorModel) {
         return res;
       }
-      print(res["data"]);
       return UserProfileModel.fromJson(res["data"]);
     } on Exception catch (e) {
       print("error on user profile service " + e.toString());
