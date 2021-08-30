@@ -27,7 +27,10 @@ class _ProfileSectionState extends State<ProfileSection> {
         children: <Widget>[
           Container(
             width: size.width,
-            padding: EdgeInsets.symmetric(vertical: defaultPadding),
+            padding: EdgeInsets.only(
+              bottom: defaultPadding,
+              top: defaultPadding * .5,
+            ),
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,

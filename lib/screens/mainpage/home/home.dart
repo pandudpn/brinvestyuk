@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:learn_brinvestyuk/constant/color.dart';
 import 'package:learn_brinvestyuk/constant/value.dart';
+import 'package:learn_brinvestyuk/models/articles/article_list_model.dart';
 import 'package:learn_brinvestyuk/screens/mainpage/home/components/article.dart';
 import 'package:learn_brinvestyuk/screens/mainpage/home/components/investment.dart';
 import 'package:learn_brinvestyuk/screens/mainpage/home/components/products.dart';
 import 'package:learn_brinvestyuk/screens/mainpage/home/components/profile.dart';
+import 'package:learn_brinvestyuk/view_model/articles/articles_list_view_model.dart';
 import 'package:learn_brinvestyuk/view_model/products/products_list_view_model.dart';
 import 'package:learn_brinvestyuk/view_model/products/products_view_model.dart';
 import 'package:learn_brinvestyuk/view_model/users/user_profile_list_view_model.dart';
@@ -20,7 +22,8 @@ class HomePageScreen extends StatefulWidget {
 class _HomePageScreenState extends State<HomePageScreen> {
   bool isRequest = true;
   UserProfileListViewModel? profile;
-  List<ProductsViewModel> products = <ProductsViewModel>[];
+  List<ProductsViewModel>? products = <ProductsViewModel>[];
+  List<ArticleListModel>? articles = <ArticleListModel>[];
 
   @override
   void initState() {
@@ -29,7 +32,9 @@ class _HomePageScreenState extends State<HomePageScreen> {
   }
 
   void readyCall() async {
-    int defaultLength = 10;
+    int defaultLengthProducts = 10;
+    int defaultLengthArticles = 10;
+
     final userProfile =
         Provider.of<UserProfileListViewModel>(context, listen: false);
     await userProfile.getProfile();
@@ -38,14 +43,26 @@ class _HomePageScreenState extends State<HomePageScreen> {
         Provider.of<ProductsListViewModel>(context, listen: false);
     await productListView.fetchProducts(1, null, null);
 
+    final articlesListView =
+        Provider.of<ArticlesListViewModel>(context, listen: false);
+    await articlesListView.fetchArticles(1);
+
     if (productListView.products!.length < 10) {
-      defaultLength = productListView.products!.length;
+      defaultLengthProducts = productListView.products!.length;
+    }
+
+    if (articlesListView.articles!.articles!.length < 10) {
+      defaultLengthArticles = articlesListView.articles!.articles!.length;
     }
 
     setState(() {
       profile = userProfile;
-      for (int i = 0; i < defaultLength; i++) {
-        products.add(productListView.products![i]);
+      for (int i = 0; i < defaultLengthProducts; i++) {
+        products?.add(productListView.products![i]);
+      }
+
+      for (int j = 0; j < defaultLengthArticles; j++) {
+        articles?.add(articlesListView.articles!.articles![j]);
       }
       isRequest = false;
     });
@@ -53,6 +70,7 @@ class _HomePageScreenState extends State<HomePageScreen> {
 
   Future<void> _onRefresh(BuildContext context) async {
     products = [];
+    articles = [];
     readyCall();
   }
 
@@ -63,12 +81,12 @@ class _HomePageScreenState extends State<HomePageScreen> {
     return RefreshIndicator(
       onRefresh: () => _onRefresh(context),
       child: ListView(
-        padding: EdgeInsets.only(bottom: defaultPadding * 2),
+        padding: EdgeInsets.only(bottom: defaultPadding),
         children: <Widget>[
           Stack(
             children: <Widget>[
               Container(
-                height: size.height * .3,
+                height: size.height * .35,
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
                     begin: Alignment.topCenter,
@@ -184,7 +202,11 @@ class _HomePageScreenState extends State<HomePageScreen> {
                         ),
                       ),
                       SizedBox(height: defaultHeight),
-                      ArticleSection()
+                      isRequest
+                          ? Text('')
+                          : ArticleSection(
+                              articles: articles,
+                            )
                     ],
                   ),
                 ),

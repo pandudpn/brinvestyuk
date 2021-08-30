@@ -1,7 +1,6 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:learn_brinvestyuk/constant/value.dart';
 import 'package:learn_brinvestyuk/view_model/products/products_view_model.dart';
 
@@ -18,28 +17,29 @@ class _ProductSectionState extends State<ProductSection> {
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
+      physics: ClampingScrollPhysics(),
       child: Row(
-        children: _products(widget.products),
+        children: _products(),
       ),
     );
   }
 
-  List<Widget> _products(List<ProductsViewModel>? products) {
+  List<Widget> _products() {
     List<Widget> lists = <Widget>[];
 
-    for (int i = 0; i < products!.length; i++) {
+    for (int i = 0; i < widget.products!.length; i++) {
       Widget p = Padding(
         padding: EdgeInsets.symmetric(horizontal: defaultPadding),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Container(
-              width: 300,
-              height: 150,
+              width: 250,
+              height: 110,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(defaultRadius),
                 image: DecorationImage(
-                  image: NetworkImage(products[i].image!),
+                  image: NetworkImage(widget.products![i].image!),
                   fit: BoxFit.cover,
                 ),
               ),
@@ -56,7 +56,7 @@ class _ProductSectionState extends State<ProductSection> {
                           color: Colors.white,
                           shape: BoxShape.rectangle,
                         ),
-                        child: Text(products[i].formatted!.roi!,
+                        child: Text(widget.products![i].formatted!.roi!,
                             style: Theme.of(context).textTheme.bodyText2),
                       ),
                     ),
@@ -66,19 +66,19 @@ class _ProductSectionState extends State<ProductSection> {
             ),
             SizedBox(height: defaultHeight * .5),
             Container(
-              width: 300,
+              width: 250,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   Text(
-                    products[i].title!,
+                    widget.products![i].title!,
                     maxLines: 1,
                     style: Theme.of(context).textTheme.headline5,
                   ),
                   SizedBox(height: defaultHeight * .5),
                   LinearProgressIndicator(
                     backgroundColor: Color(0xfffd8300).withOpacity(.3),
-                    value: products[i].currentPercent,
+                    value: widget.products![i].currentPercent,
                     color: Color(0xfffd8300),
                     minHeight: 5,
                   ),
@@ -87,11 +87,11 @@ class _ProductSectionState extends State<ProductSection> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
                       Text(
-                        products[i].formatted!.totalAmount!,
+                        widget.products![i].formatted!.totalAmount!,
                         style: Theme.of(context).textTheme.headline5,
                       ),
                       Text(
-                        products[i].totalTenorInMonth!,
+                        widget.products![i].totalTenorInMonth!,
                         style: Theme.of(context).textTheme.bodyText1,
                       )
                     ],

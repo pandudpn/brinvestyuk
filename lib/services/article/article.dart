@@ -15,7 +15,7 @@ class Article {
     });
 
     try {
-      final res = await Api.get("$_baseUrl/artciles?page=$page", options);
+      final res = await Api.get("$_baseUrl/articles?page=$page", options);
 
       if (res is ErrorModel) {
         return res;

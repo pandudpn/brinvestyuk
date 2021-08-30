@@ -9,7 +9,8 @@ class ArticleModel {
   final int? prevPage;
   final int? currentPage;
   final int? nextPage;
-  final ArticleListModel? articleLists;
+  @JsonKey(name: "articles")
+  final List<ArticleListModel>? articleLists;
 
   ArticleModel({
     this.totalPerPage,

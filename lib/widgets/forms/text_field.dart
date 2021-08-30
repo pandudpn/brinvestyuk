@@ -43,7 +43,7 @@ class TextForm extends StatelessWidget {
           SizedBox(
             height: defaultHeight * .5,
           ),
-          TextField(
+          TextFormField(
             autofocus: autoFocus ?? false,
             controller: editingController,
             obscureText: obscure ?? false,
