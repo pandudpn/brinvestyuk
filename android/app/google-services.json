@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "764472956139",
+    "project_id": "learn-brinvestyuk",
+    "storage_bucket": "learn-brinvestyuk.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:764472956139:android:3c165c0b0b64e8c0fd5aae",
+        "android_client_info": {
+          "package_name": "id.learn.brinvestyuk.learn_brinvestyuk"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "764472956139-5mjp9li7cn5j0sledvt24rcno6767n0t.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "id.learn.brinvestyuk.learn_brinvestyuk",
+            "certificate_hash": "fc521c9d2c4fd59b6bdf6db6021aa2ab8421822f"
+          }
+        },
+        {
+          "client_id": "764472956139-4000shvhcqukbs4oj71bpl5khapaqivd.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDTxfn1uma4n21oEisqP70oY_R-B8L4AT8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "764472956139-4000shvhcqukbs4oj71bpl5khapaqivd.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
