@@ -40,7 +40,6 @@ class _LoginScreenState extends State<LoginScreen> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
-              Expanded(child: Container()),
               Center(
                 child: Text(
                   "Login",
@@ -60,47 +59,45 @@ class _LoginScreenState extends State<LoginScreen> {
               SizedBox(
                 height: defaultPadding * 3,
               ),
-              LoginForm(
-                button: _button,
-                isRequest: _isRequest,
-                emailController: emailController,
-                emailValid: _emailValid,
-                emailChanges: (val) => setState(
-                  () {
-                    if (EmailValidator.validate(emailController.text)) {
-                      _emailValid = true;
-                      if (_passValid && passwordController.text != "") {
-                        _button = true;
+              Center(
+                child: LoginForm(
+                  button: _button,
+                  isRequest: _isRequest,
+                  emailController: emailController,
+                  emailValid: _emailValid,
+                  emailChanges: (val) => setState(
+                    () {
+                      if (EmailValidator.validate(emailController.text)) {
+                        _emailValid = true;
+                        if (_passValid && passwordController.text != "") {
+                          _button = true;
+                        } else {
+                          _button = false;
+                        }
                       } else {
+                        _emailValid = false;
                         _button = false;
                       }
-                    } else {
-                      _emailValid = false;
-                      _button = false;
-                    }
-                  },
+                    },
+                  ),
+                  passwordController: passwordController,
+                  passValid: _passValid,
+                  passwordChanges: (val) => setState(
+                    () {
+                      if (val.length > 5) {
+                        _passValid = true;
+                        _button = _emailValid && emailController.text != "";
+                      } else {
+                        _passValid = false;
+                        _button = false;
+                      }
+                    },
+                  ),
+                  buttonOnPressed: () => _doLogin(
+                    emailController.text,
+                    passwordController.text,
+                  ),
                 ),
-                passwordController: passwordController,
-                passValid: _passValid,
-                passwordChanges: (val) => setState(
-                  () {
-                    if (val.length > 5) {
-                      _passValid = true;
-                      _button = _emailValid && emailController.text != "";
-                    } else {
-                      _passValid = false;
-                      _button = false;
-                    }
-                  },
-                ),
-                buttonOnPressed: () => _doLogin(
-                  emailController.text,
-                  passwordController.text,
-                ),
-              ),
-              Expanded(
-                child: Container(),
-                flex: 2,
               ),
             ],
           ),

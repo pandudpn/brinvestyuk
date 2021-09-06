@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:learn_brinvestyuk/app_config.dart';
 import 'package:learn_brinvestyuk/helpers/store_management.dart';
 import 'package:learn_brinvestyuk/screens/auth/login/login_screen.dart';
@@ -24,6 +25,11 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(
+      SystemUiOverlayStyle.dark.copyWith(
+        statusBarColor: Colors.transparent,
+      ),
+    );
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(

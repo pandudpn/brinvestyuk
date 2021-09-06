@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:learn_brinvestyuk/constant/color.dart';
 import 'package:learn_brinvestyuk/constant/value.dart';
+import 'package:learn_brinvestyuk/helpers/store_management.dart';
 import 'package:learn_brinvestyuk/models/articles/article_list_model.dart';
+import 'package:learn_brinvestyuk/screens/auth/login/login_screen.dart';
 import 'package:learn_brinvestyuk/screens/mainpage/home/components/article.dart';
 import 'package:learn_brinvestyuk/screens/mainpage/home/components/investment.dart';
 import 'package:learn_brinvestyuk/screens/mainpage/home/components/products.dart';
 import 'package:learn_brinvestyuk/screens/mainpage/home/components/profile.dart';
+import 'package:learn_brinvestyuk/screens/mainpage/home/components/shimmer.dart';
 import 'package:learn_brinvestyuk/view_model/articles/articles_list_view_model.dart';
+import 'package:learn_brinvestyuk/view_model/auth/login/login_list_view_model.dart';
 import 'package:learn_brinvestyuk/view_model/products/products_list_view_model.dart';
 import 'package:learn_brinvestyuk/view_model/products/products_view_model.dart';
 import 'package:learn_brinvestyuk/view_model/users/user_profile_list_view_model.dart';
@@ -28,6 +32,7 @@ class _HomePageScreenState extends State<HomePageScreen> {
   @override
   void initState() {
     readyCall();
+
     super.initState();
   }
 
@@ -69,6 +74,7 @@ class _HomePageScreenState extends State<HomePageScreen> {
   }
 
   Future<void> _onRefresh(BuildContext context) async {
+    setState(() => isRequest = true);
     products = [];
     articles = [];
     readyCall();
@@ -106,19 +112,23 @@ class _HomePageScreenState extends State<HomePageScreen> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
-                      ProfileSection(
-                        name: profile?.user == null
-                            ? "Investor"
-                            : profile!.user!.name,
-                      ),
+                      isRequest
+                          ? ShimmerProfile()
+                          : ProfileSection(
+                              name: profile?.user == null
+                                  ? "Investor"
+                                  : profile!.user!.name,
+                            ),
                       SizedBox(
                         height: defaultHeight * .5,
                       ),
-                      InvestmentSection(
-                        total:
-                            profile?.user?.userInvestment?.formatted?.total ??
-                                "Rp 0",
-                      ),
+                      isRequest
+                          ? ShimmerInvestment()
+                          : InvestmentSection(
+                              total: profile?.user?.userInvestment?.formatted
+                                      ?.total ??
+                                  "Rp 0",
+                            ),
                       SizedBox(height: defaultHeight * 1.5),
                       Divider(
                         height: defaultHeight * .5,
@@ -159,7 +169,7 @@ class _HomePageScreenState extends State<HomePageScreen> {
                       ),
                       SizedBox(height: defaultHeight),
                       isRequest
-                          ? Text('')
+                          ? ShimmerProductSection()
                           : ProductSection(
                               products: products,
                             ),
@@ -203,7 +213,7 @@ class _HomePageScreenState extends State<HomePageScreen> {
                       ),
                       SizedBox(height: defaultHeight),
                       isRequest
-                          ? Text('')
+                          ? ShimmerArticleSection()
                           : ArticleSection(
                               articles: articles,
                             )

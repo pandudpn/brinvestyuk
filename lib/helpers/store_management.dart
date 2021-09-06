@@ -11,10 +11,18 @@ class StorageManagement {
     _sharedPrefs ??= await SharedPreferences.getInstance();
   }
 
-  String? get token => _sharedPrefs?.getString("token");
+  Future<void> removeToken() async {
+    _sharedPrefs?.remove("token");
+  }
+
+  String? get token => _sharedPrefs?.getString("token") ?? null;
 
   set token(String? value) {
-    _sharedPrefs?.setString("token", value ?? "");
+    if (value == null) {
+      _sharedPrefs?.remove("token");
+    } else {
+      _sharedPrefs?.setString("token", value);
+    }
   }
 
   bool get firstInstall => _sharedPrefs?.getBool("firstInstall") ?? true;
