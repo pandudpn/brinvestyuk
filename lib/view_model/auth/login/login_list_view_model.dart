@@ -10,22 +10,15 @@ class LoginListViewModel with ChangeNotifier {
 
   Future<void> doLogin(String email, String password) async {
     try {
-      dynamic response = await Login().loginUser(email, password);
+      final LoginModel? response = await Login().loginUser(email, password);
 
-      if (response is ErrorModel) {
-        this.login = null;
-        print("error " + response.code + " reason is " + response.reason);
-        Fluttertoast.showToast(msg: response.reason);
-      } else if (response is LoginModel) {
+      if (response != null) {
         this.login = LoginViewModel(login: response);
       }
 
       notifyListeners();
     } catch (e) {
       this.login = null;
-      Fluttertoast.showToast(
-          msg:
-              "Terjadi kesalahan pada server, silahkan coba beberapa saat lagi");
     }
   }
 }

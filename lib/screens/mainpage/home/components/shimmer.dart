@@ -3,7 +3,7 @@ import 'package:learn_brinvestyuk/constant/color.dart';
 import 'package:learn_brinvestyuk/constant/value.dart';
 import 'package:shimmer_animation/shimmer_animation.dart';
 
-final Color shimmerColor = secondaryColor.withOpacity(.3);
+final Color shimmerColor = Colors.grey[300]!;
 
 class ShimmerProfile extends StatelessWidget {
   const ShimmerProfile({Key? key}) : super(key: key);

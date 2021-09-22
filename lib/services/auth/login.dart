@@ -5,10 +5,8 @@ import 'package:learn_brinvestyuk/models/error_model.dart';
 import 'package:learn_brinvestyuk/services/api.dart';
 
 class Login {
-  String _baseUrl = Api().baseUrl;
-
-  Future<dynamic> loginUser(String email, String password) async {
-    Map data = {
+  Future<LoginModel?> loginUser(String email, String password) async {
+    Map<String, dynamic> data = {
       "email": email,
       "password": password,
     };
@@ -19,16 +17,10 @@ class Login {
     });
 
     try {
-      final res =
-          await Api.postJson("$_baseUrl/auth/login/users", data, options);
+      final res = await Api.postJson("/auth/login/users", data, options);
 
-      if (res is ErrorModel) {
-        return res;
-      }
-
-      return LoginModel.fromJson(res["data"]);
+      return LoginModel.fromJson(res?["data"]);
     } on Exception catch (e) {
-      print("error on login service " + e.toString());
       throw e;
     }
   }

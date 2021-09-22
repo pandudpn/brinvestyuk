@@ -5,13 +5,16 @@ import 'package:learn_brinvestyuk/models/products/product_list_model.dart';
 import 'package:learn_brinvestyuk/services/api.dart';
 
 class Product {
-  String? _baseUrl = Api().baseUrl;
   String? _token = StorageManagement().token;
 
-  Future<dynamic> fetchProducts(int? page, int? limit, String? sort) async {
+  Future<List<ProductListModel>?> fetchProducts(
+      int? page, int? limit, String? sort) async {
     page ??= 1;
     limit ??= 10;
-    sort ??= "Latest";
+
+    String url = sort == null
+        ? "/products?limit=$limit&page=$page"
+        : "/products?limit=$limit&page=$page&sort=$sort";
 
     Options options = Options(headers: {
       "Authorization": _token,
@@ -19,22 +22,11 @@ class Product {
     });
 
     try {
-      final res = await Api.get(
-          "$_baseUrl/products?limit=$limit&page=$page&sort=$sort", options);
+      final Map<String, dynamic>? res = await Api.get(url, options);
 
-      if (res is ErrorModel) {
-        return res;
-      }
-
-      if (res["data"] == null) {
-        return null;
-      }
-
-      Iterable list = res["data"];
+      Iterable list = res?["data"];
       return list.map((product) => ProductListModel.fromJson(product)).toList();
     } on Exception catch (e) {
-      print("error fetch product $e");
-
       throw e;
     }
   }

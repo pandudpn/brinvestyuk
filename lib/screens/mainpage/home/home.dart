@@ -9,6 +9,7 @@ import 'package:learn_brinvestyuk/screens/mainpage/home/components/investment.da
 import 'package:learn_brinvestyuk/screens/mainpage/home/components/products.dart';
 import 'package:learn_brinvestyuk/screens/mainpage/home/components/profile.dart';
 import 'package:learn_brinvestyuk/screens/mainpage/home/components/shimmer.dart';
+import 'package:learn_brinvestyuk/screens/mainpage/product/product_list_screen.dart';
 import 'package:learn_brinvestyuk/view_model/articles/articles_list_view_model.dart';
 import 'package:learn_brinvestyuk/view_model/auth/login/login_list_view_model.dart';
 import 'package:learn_brinvestyuk/view_model/products/products_list_view_model.dart';
@@ -52,22 +53,30 @@ class _HomePageScreenState extends State<HomePageScreen> {
         Provider.of<ArticlesListViewModel>(context, listen: false);
     await articlesListView.fetchArticles(1);
 
-    if (productListView.products!.length < 10) {
+    if (productListView.products != null &&
+        productListView.products!.length < 10) {
       defaultLengthProducts = productListView.products!.length;
     }
 
-    if (articlesListView.articles!.articles!.length < 10) {
+    if (articlesListView.articles != null &&
+        articlesListView.articles!.articles != null &&
+        articlesListView.articles!.articles!.length < 10) {
       defaultLengthArticles = articlesListView.articles!.articles!.length;
     }
 
     setState(() {
       profile = userProfile;
-      for (int i = 0; i < defaultLengthProducts; i++) {
-        products?.add(productListView.products![i]);
+      if (productListView.products != null) {
+        for (int i = 0; i < defaultLengthProducts; i++) {
+          products?.add(productListView.products![i]);
+        }
       }
 
-      for (int j = 0; j < defaultLengthArticles; j++) {
-        articles?.add(articlesListView.articles!.articles![j]);
+      if (articlesListView.articles != null &&
+          articlesListView.articles!.articles != null) {
+        for (int j = 0; j < defaultLengthArticles; j++) {
+          articles?.add(articlesListView.articles!.articles![j]);
+        }
       }
       isRequest = false;
     });
@@ -147,7 +156,12 @@ class _HomePageScreenState extends State<HomePageScreen> {
                               style: Theme.of(context).textTheme.headline4,
                             ),
                             GestureDetector(
-                              onTap: () => print("pencet produk"),
+                              onTap: () => Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => ProductListScreen(),
+                                ),
+                              ),
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: <Widget>[

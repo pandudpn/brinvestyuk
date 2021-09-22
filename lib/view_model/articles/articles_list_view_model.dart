@@ -11,22 +11,12 @@ class ArticlesListViewModel with ChangeNotifier {
   Future<void> fetchArticles(int? page) async {
     page ??= 1;
     try {
-      final response = await Article().fetchArticles(page);
-
-      if (response is ErrorModel) {
-        this.articles = null;
-        Fluttertoast.showToast(msg: response.reason);
-      } else if (response is ArticleModel) {
-        this.articles =
-            // ignore: unnecessary_null_comparison
-            response != null ? ArticlesViewModel(article: response) : null;
+      final ArticleModel? response = await Article().fetchArticles(page);
+      if (response != null) {
+        this.articles = ArticlesViewModel(article: response);
       }
     } catch (e) {
-      print("error $e");
       this.articles = null;
-      Fluttertoast.showToast(
-          msg:
-              "Terjadi kesalahan pada server, silahkan coba beberapa saat lagi");
     }
   }
 }

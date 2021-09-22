@@ -50,7 +50,6 @@ class _MyAppState extends State<MyApp> {
         theme: ThemeData(
           fontFamily: "Roboto",
           primaryColor: Color(0xff43568e),
-          accentColor: Color(0xffef6a00),
           textTheme: TextTheme(
             headline1: TextStyle(
               fontSize: 32.0,

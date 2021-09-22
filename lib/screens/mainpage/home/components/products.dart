@@ -34,7 +34,7 @@ class _ProductSectionState extends State<ProductSection> {
           context,
           MaterialPageRoute(
             builder: (context) => ProductDetailScreen(
-              products: widget.products?[i],
+              products: widget.products![i],
             ),
           ),
         ),

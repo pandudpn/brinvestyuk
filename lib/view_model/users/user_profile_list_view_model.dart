@@ -10,22 +10,14 @@ class UserProfileListViewModel with ChangeNotifier {
 
   Future<void> getProfile() async {
     try {
-      dynamic response = await Users().getProfileUser();
-      if (response is ErrorModel) {
-        this.user = null;
-        print("error " + response.code + " reason is " + response.reason);
-        Fluttertoast.showToast(msg: response.reason);
-      } else if (response is UserProfileModel) {
+      final UserProfileModel? response = await Users().getProfileUser();
+      if (response != null) {
         this.user = UserProfileViewModel(userProfileModel: response);
       }
 
       notifyListeners();
     } catch (e) {
-      print(e);
       this.user = null;
-      Fluttertoast.showToast(
-          msg:
-              "Terjadi kesalahan pada server, silahkan coba beberapa saat lagi");
     }
   }
 }
